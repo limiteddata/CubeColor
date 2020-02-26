@@ -53,11 +53,19 @@ public class mainMenu : MenuScript
     {
         Difficulty = PlayerPrefs.GetInt("difficultyIndex");
         volumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
-        for (int i=0; i<3; i++)
+
+        for (int i =0; i<3; i++)
+        {
+            colorSlider[i].onValueChanged.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.Off);
             colorSlider[i].value = PlayerPrefs.GetFloat("color"+i);
+            colorSlider[i].onValueChanged.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.RuntimeOnly);
+        }
+
+        Material mat = player.GetComponent<Renderer>().material;
+        mat.color = new Color(colorSlider[0].value, colorSlider[1].value, colorSlider[2].value);
     }
 
-    public void SetColor(float color)
+    public void SetColor()
     {
         Material mat = player.GetComponent<Renderer>().material;
         mat.color = new Color(colorSlider[0].value, colorSlider[1].value, colorSlider[2].value);

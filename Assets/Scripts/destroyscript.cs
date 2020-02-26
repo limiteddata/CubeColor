@@ -1,10 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class destroyscript : MonoBehaviour {
-    void OnCollisionExit(Collision other)
-    { 
-        Destroy(this);
+
+    public bool reusable;
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.name == "B_wall")
+        {
+            reusable = true;
+            gameObject.SetActive(false);
+        }
+            
     }   
 }

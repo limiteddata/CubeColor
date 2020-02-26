@@ -1,38 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class playerScript : MonoBehaviour
 {
     public GameObject floors;
-    AudioSource audioSource;
+    public AudioSource audioSource;
     public float Speed;
     public Text scoreText;
     public Text hScoreText;
+    public int diffIndex;
     public int score;
-    void Start()
+    public InputMaster inputActions;
+
+    private void Awake()
+    {
+        inputActions = new InputMaster();
+        inputActions.Player.MovePlayer.performed += ctx => movePlayer(ctx.ReadValue<Vector2>());
+    }
+    private void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
         Material mat = this.gameObject.GetComponent<Renderer>().material;
         mat.color = new Color(PlayerPrefs.GetFloat("color0"), PlayerPrefs.GetFloat("color1"), PlayerPrefs.GetFloat("color2"));
-        hScoreText.text = PlayerPrefs.GetInt("HighestScore").ToString();
+        diffIndex = PlayerPrefs.GetInt("difficultyIndex");
+        hScoreText.text = PlayerPrefs.GetInt("HighestScore" + diffIndex).ToString();
+
+    }
+    void movePlayer(Vector2 pos)
+    {
+        if (Time.timeScale != 0)
+        {
+            transform.position += new Vector3(pos.x, 0, 0);
+            audioSource.Play();
+        }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A) && Time.timeScale != 0)
-        {
-            transform.position += new Vector3(-1, 0, 0);
-            audioSource.Play();
-        }
-        if (Input.GetKeyDown(KeyCode.D)&&Time.timeScale != 0)
-        {
-            transform.position += new Vector3(1, 0, 0);
-            audioSource.Play();
-        }
-    }
     int lastPos;
     private void FixedUpdate()
     {
@@ -52,10 +55,18 @@ public class playerScript : MonoBehaviour
     {
         if (collision.collider.tag != "floor")
         {
-            if(score > PlayerPrefs.GetInt("HighestScore"))
-                PlayerPrefs.SetInt("HighestScore", score);
+            if(score > PlayerPrefs.GetInt("HighestScore"+diffIndex))
+                PlayerPrefs.SetInt("HighestScore"+diffIndex, score);
             SceneManager.LoadScene("main");
             
         }
+    }
+    private void OnEnable()
+    {
+        inputActions.Enable();
+    }
+    private void OnDisable()
+    {
+        inputActions.Disable();
     }
 }
