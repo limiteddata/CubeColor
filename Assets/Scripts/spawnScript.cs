@@ -23,7 +23,7 @@ public class spawnScript : MonoBehaviour
     void Update()
     {
         foreach (var Object in allObjects)
-            if (Object.GetComponent<destroyscript>().reusable && !queueObjects.Contains(Object))
+            if (Object.GetComponent<readyForPool>().reusable && !queueObjects.Contains(Object))
                 queueObjects.Add(Object);
 
         while (x < (int)end.transform.position.z)
@@ -33,7 +33,7 @@ public class spawnScript : MonoBehaviour
 
             if(queueObjects.Count > 0)
             {
-                queueObjects[0].GetComponent<destroyscript>().reusable = false;
+                queueObjects[0].GetComponent<readyForPool>().reusable = false;
                 queueObjects[0].transform.position = pos;
                 queueObjects[0].SetActive(true);
                 queueObjects.RemoveAt(0);

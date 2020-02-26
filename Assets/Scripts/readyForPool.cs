@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class destroyscript : MonoBehaviour {
-
+public class readyForPool : MonoBehaviour
+{
     public bool reusable;
     void OnCollisionEnter(Collision collision)
     {
@@ -10,6 +12,6 @@ public class destroyscript : MonoBehaviour {
             reusable = true;
             gameObject.SetActive(false);
         }
-            
-    }   
+
+    }
 }
