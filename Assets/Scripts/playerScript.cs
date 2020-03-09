@@ -22,20 +22,26 @@ public class playerScript : MonoBehaviour
     {
         audioSource = gameObject.GetComponent<AudioSource>();
         Material mat = this.gameObject.GetComponent<Renderer>().material;
-        mat.color = new Color(PlayerPrefs.GetFloat("color0"), PlayerPrefs.GetFloat("color1"), PlayerPrefs.GetFloat("color2"));
+        if (PlayerPrefs.HasKey("color0")|| PlayerPrefs.HasKey("color1") || PlayerPrefs.HasKey("color2"))
+            mat.color = new Color(PlayerPrefs.GetFloat("color0"), PlayerPrefs.GetFloat("color1"), PlayerPrefs.GetFloat("color2"));
+        else
+            mat.color = new Color(1,0,0);
         diffIndex = PlayerPrefs.GetInt("difficultyIndex");
         hScoreText.text = PlayerPrefs.GetInt("HighestScore" + diffIndex).ToString();
 
     }
-    void movePlayer(Vector2 pos)
+    public void movePlayer(Vector2 pos)
     {
         if (Time.timeScale != 0)
         {
-            transform.position += new Vector3(pos.x, 0, 0);
+            transform.position += new Vector3(pos.x,0,0);
             audioSource.Play();
         }
     }
-
+    public void androidMove(int x)
+    {
+        movePlayer(new Vector2(x,0));
+    }
     int lastPos;
     private void FixedUpdate()
     {

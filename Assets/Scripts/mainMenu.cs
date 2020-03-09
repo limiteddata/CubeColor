@@ -48,15 +48,19 @@ public class mainMenu : MenuScript
         }
     }
 
-
     void Start()
     {
         Difficulty = PlayerPrefs.GetInt("difficultyIndex");
+
+        if(PlayerPrefs.HasKey("masterVolume"))
         volumeSlider.value = PlayerPrefs.GetFloat("masterVolume");
 
+
+        if (PlayerPrefs.HasKey("color0") || PlayerPrefs.HasKey("color1") || PlayerPrefs.HasKey("color2"))
         for (int i =0; i<3; i++)
         {
             colorSlider[i].onValueChanged.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.Off);
+
             colorSlider[i].value = PlayerPrefs.GetFloat("color"+i);
             colorSlider[i].onValueChanged.SetPersistentListenerState(0, UnityEngine.Events.UnityEventCallState.RuntimeOnly);
         }
