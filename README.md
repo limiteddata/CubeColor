@@ -2,8 +2,6 @@
 
 This is my first game made in unity. Play it!
 
-You can find the Windows version under Build/win32_build
-
 **Now avalable on google play:**<br/>
 https://play.google.com/store/apps/details?id=com.BadGames.CubeColor
 
